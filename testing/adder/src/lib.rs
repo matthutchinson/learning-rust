@@ -20,12 +20,17 @@ pub fn greeting(name: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    #[test] // attribute indicating this is a test function
+   fn exploration() {
+       // values being compared must implement the PartialEq and Debug traits
+       // to compare structs/enums add these traits `#[derive(PartialEq, Debug)]`
+       assert_eq!(2 + 2, 4);
+       assert_ne!(2 + 10, 4);
+       assert!(2 + 2 == 4);
     }
 
     #[test]
+    #[should_panic(expected = "Make this test fail")]
     fn always_fail() {
         panic!("Make this test fail");
     }
@@ -56,11 +61,12 @@ mod tests {
     }
 
     #[test]
+    #[ignore] // ignore this test
     fn greeting_contains_name() {
         let result = greeting("Carol");
-        assert!(result.contains("Carol"));
+        assert!(result.contains("Hello Carol!"));
         assert!(
-            result.contains("NotCar-ol"),
+            result.contains("NotCarol"),
             "Greeting did not contain name, value was `{}`", result
         );
     }

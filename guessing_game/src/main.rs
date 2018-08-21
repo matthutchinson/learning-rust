@@ -60,3 +60,16 @@ fn main() {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    // #[should_panic] // should panic marco tests code will panic (with optional message)
+    #[should_panic(expected = "Guess value must be between 1 and 100, got 101")]
+    fn panic_if_greater_than_100() {
+        // no assertions in here
+        Guess::new(101);
+    }
+}
