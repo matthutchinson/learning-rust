@@ -15,6 +15,24 @@ use std::io;
 use std::io::Write;
 use std::collections::HashMap;
 
+// example approach of the Add command using a Callable trait
+// pub trait Callable {
+//     fn call(&self, directory: &mut HashMap<String, Vec<String>>);
+// }
+
+// pub struct Add {
+//     pub name: String,
+//     pub department: String
+// }
+
+// impl Callable for Add {
+//     fn call(&self, directory: &mut HashMap<String, Vec<String>>) {
+//         let names = directory.entry(self.department.to_string()).or_insert(Vec::new());
+//         names.push(self.name.to_string());
+//         println!("OK. I added {} to {}", self.name, self.department);
+//     }
+// }
+
 enum Command {
     Add { name: String, department: String },
     ListDepartment(String),
@@ -119,11 +137,15 @@ fn prompt_for_input() -> String {
 
 
 fn main() {
+
     // welcome prompt
     println!("Directory Bot, type help for available commands");
 
     // init hash map directory, this is passed to each command
     let mut directory = HashMap::new();
+
+    // example of calling the Callable trait Add command
+    // Add { name: String::from("Bob"), department: String::from("Supply") }.call(&mut directory);
 
     loop {
         let input = prompt_for_input();
