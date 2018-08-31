@@ -1105,6 +1105,39 @@ Files in subdirectories of the tests directory don’t get compiled as separate 
 
 **NOTE**: integration tests for binary crates; add a `lib.rs` and `main.rs` to src, and have main call to use the lib AND have `tests` directory use/test the lib.
 
+## I/O Command line project
+
+Iterators produce a series of values, and we can call the collect method on an iterator to turn it into a collection, such as a vector, containing all the elements the iterator produces.
+
+E.g. iterator for command args from the environment
+
+    use std::env;
+    let args: Vec<String> = env::args().collect();
+    // first arg is always name of the binary file
+
+Cloning sometimes makes sense when giving up a little performance to gain simplicity is a worthwhile trade-off.
+
+Handle a Result (OK or Err) with `unwrap_or_else` like so:
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+    // where Config::new returns a `Result<Config, &'static str>`
+    // and `&'static str` is the type for String literal
+    // unwrap_or_else is defined on Result<T, E> by std lib
+    // the arg here is a closure, an anonymous function handling the
+    // unwrapped err
+
+Grab env vars with:
+
+    let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+    // without is_err this will return an Err variant if var isnt set
+    // is_err() on a Result here, will return true if it is not set
+    // so in that case our search will be case_sensitive
+
+Use `eprintln!("")` to write text to stderr.
+
 
 ## Cargo
 
