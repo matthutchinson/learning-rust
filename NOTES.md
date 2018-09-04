@@ -1138,6 +1138,11 @@ Grab env vars with:
 
 Use `eprintln!("")` to write text to stderr.
 
+## Iterators and Closures
+
+### Closures
+
+
 
 ## Cargo
 
