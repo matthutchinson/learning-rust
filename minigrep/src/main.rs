@@ -12,7 +12,10 @@ fn main() {
     //     process::exit(1);
     // });
 
-    let config = Config::new(env::args()).unwrap_or_else(|err| {
+    // skip first arg and collect as Vec
+    // see http://tinyurl.com/y77cwx3e for tip
+    let args = env::args().skip(1).collect::<Vec<_>>();
+    let config = Config::new(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
@@ -25,8 +28,7 @@ fn main() {
     //     },
     //     _ => { }
     // }
-
-    // or if let syntax
+    // or use the if let syntax
     if let Err(e) = minigrep::run(config) {
         eprintln!("Application error: {}", e);
         process::exit(1);

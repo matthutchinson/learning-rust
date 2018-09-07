@@ -5,13 +5,13 @@ mod test {
     use minigrep::*;
 
     #[test]
-    fn valid_config() {
-        let args = vec!["cmd".to_string(), "needle".to_string(), "haystack".to_string()];
+    fn valid_config_no_flags() {
+        let args = vec!["needle".to_string(), "haystack".to_string()];
         let config = Config::new(&args).unwrap();
 
         assert_eq!("needle", config.query);
         assert_eq!("haystack", config.filename);
-        assert_eq!(false, config.case_sensitive);
+        assert_eq!(true, config.case_sensitive);
     }
 
     // unsure how to test Err returned from Config::new
