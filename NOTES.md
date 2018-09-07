@@ -1142,6 +1142,56 @@ Use `eprintln!("")` to write text to stderr.
 
 ### Closures
 
+* Anonymous functions you can save in a variable or pass as arguments to other functions.
+* Can capture values from the scope in which they’re called.
+* Don’t require you to annotate types of parameters or return values (like fn functions do) - you optionally can.
+* But they can't be called multiple times with different arg types; first call sets concrete type.
+* E.g. the following are equivalent:
+
+```
+fn  add_one_v1   (x: u32) -> u32 { x + 1 }    # fn
+let add_one_v2 = |x: u32| -> u32 { x + 1 };   # closure
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;
+```
+
+#### Capturing variables in enclosing scope
+
+One of 3 ways: taking ownership, borrowing mutably, and borrowing immutably - as three Fn traits. Rust infers which trait to use based on how the closure uses the values from the environment. 
+
+**TLDR**: Rust will infer this and complain if it can't.
+
+`FnOnce` consumes the variables it captures from its enclosing scope, known as the closure’s environment. To consume the captured variables, the closure must take ownership of these variables and move them into the closure when it is defined. The `Once` part of the name represents the fact that the closure can’t take ownership of the same variables more than once, so it can be called only once.
+`FnMut` can change the environment because it mutably borrows values.
+`Fn` borrows values from the environment immutably.
+
+To force the closure to take ownership of the values; use the `move` keyword before the parameter list. Useful when passing a closure to a new thread to `move` the data so it’s owned by the new thread e.g.
+
+     let equal_to_x = move |z| z == x;
+
+### Iterators
+
+* Iterators are lazy, no effect until you call methods that consume the iterator to use it up.
+* All iterators implement a trait named Iterator (std lib) - requires just 1 method to be defined `next`.
+* Calling `next()` consumes the iterator (must be `mut`) returning `Some()` or `None()`.
+* `iter()`  is over immutable references.
+* `iter_into()` takes ownership and returns owned values
+* `iter_mut()` if we want to iterate over mutable references
+* E.g. using an iterator in a for loop
+
+```
+let v1 = vec![1, 2, 3];
+let v1_iter = v1.iter();
+for val in v1_iter {
+    println!("Got: {}", val);
+}
+```
+
+* `Iterator` trait methods that call `next()` are *consuming adaptors* (since they use up the iterator). e.g. `sum()`
+* Other methods known as *iterator adaptors*, allow you to change iterators into different kinds of iterators e.g. `map()`
+* You can consume an iterator adaptor method right away by calling `collect()` e.g. map with collect
+* Iterators are one of Rust’s zero-cost abstractions.
+* Rust **unrolls** iterator loops at compile time and generates repetitive lines of code for each iteration.
 
 
 ## Cargo
