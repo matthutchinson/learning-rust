@@ -1193,12 +1193,14 @@ for val in v1_iter {
 * Iterators are one of Rust’s zero-cost abstractions.
 * Rust **unrolls** iterator loops at compile time and generates repetitive lines of code for each iteration.
 
+## Cargo and Crates.io
 
-## Cargo
-
-* [Documentation](https://doc.rust-lang.org/cargo/)
+* [The Cargo Book](https://doc.rust-lang.org/cargo/)
 * [Crates.io](https://crates.io)
 * `cargo new hello_cargo --bin` (a binary project)
 * `cargo build`
 * `cargo build --release`
 * `cargo check`
+
+### Release Profiles
+

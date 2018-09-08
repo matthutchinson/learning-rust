@@ -14,7 +14,8 @@ fn main() {
 
     // skip first arg and collect as Vec
     // see http://tinyurl.com/y77cwx3e for tip
-    let args = env::args().skip(1).collect::<Vec<_>>();
+    let args = env::args().collect::<Vec<_>>();
+
     let config = Config::new(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1);
