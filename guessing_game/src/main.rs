@@ -39,7 +39,7 @@ fn main() {
             .expect("Failed to read line");
 
         // trim away new line char, and parse it as u32
-        // continue (restart loop)  if this cannot be parsed
+        // continue (restart loop) if this cannot be parsed
         let input: u32 = match input.trim().parse() {
             Ok(num) => num,
             Err(err) => {

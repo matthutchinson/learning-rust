@@ -11,7 +11,7 @@ fn main() {
         println!("number is not divisible by 4, 3, or 2");
     }
 
-    // if as an expression
+    // if as an expression with assignment
     let condition = true;
     let number = if condition {
         5
