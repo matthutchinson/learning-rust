@@ -1,0 +1,6 @@
+[package]
+name = "fahrenheit_celsius"
+version = "0.1.0"
+authors = ["Matthew Hutchinson <matt@hiddenloop.com>"]
+
+[dependencies]
