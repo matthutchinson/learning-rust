@@ -10,12 +10,12 @@ fn main() {
     println!("{}", x);
 
     let s1 = gives_ownership();         // gives_ownership moves its return value into s1
-
     println!("{}", s1);
-    let s2 = String::from("hello");     // s2 comes into scope
 
-    let _s3 = takes_and_gives_back(s2);  // s2 is moved into takes_and_gives_back, which also
-                                         // moves its return value into _s3
+    let s2 = String::from("hello give back"); // s2 comes into scope
+    let s3 = takes_and_gives_back(s2);        // s2 is moved into takes_and_gives_back, which also
+                                              // moves its return value into _s3
+    println!("{}", s3);
 
     // with function returning a tuple
     let ss1 = String::from("hello");
@@ -23,6 +23,13 @@ fn main() {
     let (ss2, len) = calculate_length(ss1);
 
     println!("The length of '{}' is {}.", ss2, len);
+
+    println!("The length of '{}' is {} (by reference).", ss2, calculate_length_by_reference(&ss2));
+
+    let mut ss3 = String::from("hello");
+    change(&mut ss3);
+
+    println!("{}! (changed by mutable reference)", ss3);
 
 } // Here, x goes out of scope, then s. But because s's value was moved, nothing
   // special happens.
@@ -54,4 +61,16 @@ fn takes_and_gives_back(a_string: String) -> String { // a_string comes into sco
 fn calculate_length(s: String) -> (String, usize) {
     let length = s.len(); // len() returns the length of a String
     (s, length)
+}
+
+// passing a reference to the String, returning length
+fn calculate_length_by_reference(s: &String) -> usize {
+    // we dont have ownership of the String passed in here, only a reference to it
+    // having references as function parameters is called borrowing
+    s.len()
+}
+
+// mutable references allow the String to be changed by reference
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
 }
