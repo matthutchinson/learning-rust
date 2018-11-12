@@ -57,23 +57,33 @@ impl Rectangle {
     }
 }
 
+// as a tuple struct
+struct RectTuple(u32, u32);
+
+impl RectTuple {
+    fn area(&self) -> u32 {
+        self.0 * self.1
+    }
+}
+
 fn main() {
     let rect1 = Rectangle { width: 30, height: 50 };
     let rect2 = Rectangle { width: 10, height: 40 };
     let rect3 = Rectangle { width: 60, height: 45 };
     let square = Rectangle::square(55);
+    let rect_tuple = RectTuple(100, 5);
 
     println!(
         "The area of the rectangle is {} square pixels (called function).",
         area(&rect1)
     );
 
+    // dervie Debug allows us to inspect the struct
     println!("rect1 is {:?}", rect1);
     println!("rect1 is {:#?}", rect1);
 
-    let area = rect1.area();
-
-    println!("The area of the rectangle is {} square pixels (called method).", area);
+    println!("The area of the rectangle is {} square pixels (called method).", rect1.area());
+    println!("The area of the rectangle (rect_tuple) is {} square pixels (called method).", rect_tuple.area());
 
     println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
     println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
