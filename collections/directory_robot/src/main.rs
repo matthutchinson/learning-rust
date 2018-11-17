@@ -62,7 +62,7 @@ impl Command {
             Command::ListDepartment(department) => {
                 match directory.get(department) {
                     Some(names) => print_department(department, names),
-                    _ => println!("The '{}' department was not found in the directory", department)
+                    None => println!("The '{}' department was not found in the directory", department)
                 }
             },
             Command::Help => {
@@ -72,8 +72,8 @@ impl Command {
                 println!("Help - shows available commands");
                 println!("Exit - quits the program");
             },
-            Command::Exit => process::exit(0x0100), // multi-platform exit code
-            _ => {} // do nothing for all other commands, including the None command
+            Command::Exit => process::exit(0x0100), // a valid multi-platform exit code
+            _ => {} // do nothing for all other commands (including None)
         }
     }
 }
@@ -98,7 +98,7 @@ fn parse_command(input: &str) -> Command {
     match words[0].to_ascii_lowercase().as_ref() {
         "add" => {
             // get index of the 'to' word, abort if not present
-            let mut to_index = words.iter().position(|&r| r == "to");
+            let to_index = words.iter().position(|&r| r == "to");
             match to_index {
                 Some(idx) => {
                     Command::Add {
@@ -137,7 +137,6 @@ fn prompt_for_input() -> String {
 
 
 fn main() {
-
     // welcome prompt
     println!("Directory Bot, type help for available commands");
 
