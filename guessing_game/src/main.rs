@@ -5,12 +5,12 @@ use std::cmp::Ordering;
 use rand::Rng;
 
 pub struct Guess {
-    value: u32,
+    value: i32,
 }
 
 impl Guess {
     // initialiser with check on input param
-    pub fn new(value: u32) -> Guess {
+    pub fn new(value: i32) -> Guess {
         if value < 1 || value > 100 {
             panic!("Guess value must be between 1 and 100, got {}.", value);
         }
@@ -20,7 +20,7 @@ impl Guess {
     }
 
     // public getter for struct value attribute
-    pub fn value(&self) -> u32 {
+    pub fn value(&self) -> i32 {
         self.value
     }
 }
@@ -38,9 +38,9 @@ fn main() {
         io::stdin().read_line(&mut input)
             .expect("Failed to read line");
 
-        // trim away new line char, and parse it as u32
+        // trim away new line char, and parse it as i32
         // continue (restart loop) if this cannot be parsed
-        let input: u32 = match input.trim().parse() {
+        let input: i32 = match input.trim().parse() {
             Ok(num) => num,
             Err(err) => {
                 println!("That is not a number! ({})", err);
@@ -49,7 +49,7 @@ fn main() {
         };
         let guess = Guess::new(input);
 
-        // cmp is available on u32
+        // cmp is available on i32
         match guess.value().cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
