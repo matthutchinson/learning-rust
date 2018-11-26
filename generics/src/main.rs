@@ -1,5 +1,18 @@
 use std::fmt::Display;
 
+// without generics
+// fn largest(list: &[i32]) -> i32 {
+//     let mut largest = list[0];
+
+//     for &item in list.iter() {
+//         if item > largest {
+//             largest = item;
+//         }
+//     }
+
+//     largest
+// }
+
 // has concrete list param, any slice of i32 values, returns i32
 fn largest_i32(list: &[i32]) -> i32 {
     let mut largest = list[0];
@@ -27,6 +40,7 @@ fn largest_char(list: &[char]) -> char {
     largest
 }
 
+
 // uses generic T parameters and generic return type
 // because we want to compare values of type T in the body, we can only use types whose values can
 // be ordered (having the iter() method)
@@ -45,7 +59,6 @@ fn largest<T: PartialOrd>(list: &[T]) -> &T {
     largest
 }
 
-
 // struct with generic types, T type must be the same for x and y here
 struct Point<T> {
     x: T,
@@ -53,6 +66,7 @@ struct Point<T> {
 }
 
 // getter
+// this method is available to Points with any type of value
 impl<T> Point<T> {
     fn x(&self) -> &T {
         &self.x
@@ -60,6 +74,7 @@ impl<T> Point<T> {
 }
 
 // this method is only available to Points with f32 values for x, y
+// no need for impl<f32> here
 impl Point<f32> {
     fn distance_from_origin(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
@@ -70,7 +85,7 @@ impl Point<f32> {
 // traits
 impl<T: Clone + Display> Point<T> {
     fn some_func(&self) {
-        println!("some func");
+        println!("some func x: {}", self.x());
     }
 }
 
@@ -78,24 +93,11 @@ impl<T: Clone + Display> Point<T> {
 impl<T> Point<T>
     where T: Display + Clone {
     fn some_func_again(&self) {
-        println!("some func");
+        println!("some func again x: {}", self.x());
     }
 }
 
 fn main() {
-    // struct with generic type T and method returning a generic type T
-    let p = Point { x: 5, y: 10 };
-    println!("p.x = {}", p.x());
-
-    let p = Point { x: 3.124, y: 10.0 }; // both f32
-    println!("p.x = {}", p.x());
-    println!("p.distance_from_origin = {}", p.distance_from_origin());
-
-    let p = Point { x: true, y: false };
-    println!("p.x = {}", p.x());
-
-    println!("---------");
-
     let number_list = vec![34, 50, 25, 100, 65];
 
     let result = largest_i32(&number_list);
@@ -109,5 +111,19 @@ fn main() {
     println!("The largest char is {}", result);
     let result = largest(&char_list);
     println!("The largest char is {} (generic)", result);
-}
 
+    println!("---------");
+    // struct with generic type T and method returning a generic type T
+    let p = Point { x: 5, y: 10 };
+    println!("p.x = {}", p.x());
+
+    let p = Point { x: 3.124, y: 10.0 }; // both f32
+    println!("p.x = {}", p.x());
+    println!("p.distance_from_origin = {}", p.distance_from_origin());
+    p.some_func();
+
+    let p = Point { x: true, y: false };
+    println!("p.x = {}", p.x());
+
+    p.some_func_again();
+}

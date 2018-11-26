@@ -12,6 +12,7 @@
 * `const MAX_POINTS: u32 = 100_000;` constant definition
 * shadow a variable by defining with let again, still immutable, can also change type and re-use same name
 * mutable variables cannot have their type changed
+* functions do not have &self as a parameter, methods do
 
 ## Data Types
 
@@ -26,8 +27,8 @@ Every value is a certain Data Type, a **scalar** or **compound**. The compiler t
 
 ### Compound Types
 
-* Tuple e.g. `let tup:(i32, f64, u8) = (500, 6.4, 1);` 
-	* and `let (x, y, z) = tup;` 
+* Tuple e.g. `let tup:(i32, f64, u8) = (500, 6.4, 1);`
+	* and `let (x, y, z) = tup;`
 	* or `let x = tup.0;`
 * Array - all elements must be of the same type and fixed length, allocated on the stack (not heap).
 * Vector - like an array, but can grow/shrink in size on the heap.
@@ -47,7 +48,7 @@ E.g. taking a value, and returning it:
 
 ## Result and .expect
 
-`io::stdin().read_line` returns a Result (an `io::Result`). 
+`io::stdin().read_line` returns a Result (an `io::Result`).
 
 Rust has a number of types named `Result` in the standard library: a generic Result and specific versions for submodules, such as `io::Result`.
 
@@ -92,7 +93,7 @@ If you do want to deep copy, use `.clone()` (may be expensive) e.g.
 	let s2 = s1.clone();
 	println!("s1 = {}, s2 = {}", s1, s2);
 
-Types such as integers that have a known size at compile time are stored entirely on the stack, so copies of the actual values are quick to make. 
+Types such as integers that have a known size at compile time are stored entirely on the stack, so copies of the actual values are quick to make.
 
 These types have a special annotation called the `Copy` trait, e.g. integers, boolean, floating points, chars, tuples (only if all types have the `Copy` trait).
 
@@ -110,7 +111,7 @@ Or in this tuple return:
 	// somewhere in fn main()
 	let ss1 = String::from("hello");
 	let (ss2, len) = calculate_length(ss1);
-	
+
 	fn calculate_length(s: String) -> (String, usize) {
 			let length = s.len(); // len() returns the length of a String
 
@@ -133,11 +134,11 @@ E.g. instead of the tuple, pass by reference like so:
 
 		println!("The length of '{}' is {}.", s1, len);
 	}
-	
+
 	fn calculate_length(s: &String) -> usize { // s is a reference to a String
 			s.len()
 	} // Here, s goes out of scope. But because it does not have ownership of what it refers to, nothing happens.
-	
+
 	// &s1, create a reference that refers to the value of s1 but doesn't own it
 
 We call having references as function parameters _borrowing_. You cannot modify something you are borrowing, references are immutable. It is not possible to modify `s` in the `calculate_length` fn above.
@@ -149,7 +150,7 @@ We call having references as function parameters _borrowing_. You cannot modify 
 
 	    change(&mut s);
 	}
-	
+
 	fn change(some_string: &mut String) {
 			some_string.push_str(", world");
 	}
@@ -285,18 +286,18 @@ enum IpAddrKind {
   V4,
   V6,
 }
-let four = IpAddrKind::V4;		
+let four = IpAddrKind::V4;
 
 // and
 fn route(ip_type: IpAddrKind) { }
 route(IpAddrKind::V4);
-	
+
 // and
 struct IpAddr {
     kind: IpAddrKind,
     address: String,
 }
-	
+
 let home = IpAddr {
     kind: IpAddrKind::V4,
     address: String::from("127.0.0.1"),
@@ -526,11 +527,11 @@ Get values at index with:
 Iterate over values with:
 
 	let mut v = vec![100, 32, 57];
-	
+
 	for i in &mut v {
 	    println!("{}", i);
 	}
-	
+
 	// or change each value with
 	for i in &mut v {
 	    *i += 50;
@@ -777,9 +778,9 @@ fn largest_char(list: &[char]) -> char { .. }
 // becomes this (taking slices of generic T, returning T generic type)
 fn largest<T>(list: &[T]) -> T { .. }
 
-// this could work if the things you do in the function are OK to perform on the generic type, if they are not, Rust will error and explain why.		
+// this could work if the things you do in the function are OK to perform on the generic type, if they are not, Rust will error and explain why.
 ```
-		
+
 Structs can take generic type params too e.g.
 
     struct Point<T> {
@@ -827,7 +828,7 @@ In method definitions for structs & enums (methods, not functions since they tak
 		        &self.x
         }
     }
-    
+
     // note no impl<f32> here, since function only available to Point<f32>'s
     impl Point<f32> {
 			  fn distance_from_origin(&self) -> f32 {
@@ -854,7 +855,7 @@ E.g. a summary trait definition letting us call summarise on various types (e.g.
         fn summarise(&self) -> String;
         fn to_xml(&self) -> String;
     }
-    
+
     // each type implementing this trait must implement the method signatures the compiler will enforce this
 
 E.g. implementing this on a `NewsArticle` with `impl Summary for`
@@ -1079,7 +1080,7 @@ Pass the name of a test(s) in command to run individual tests
 
     cargo test {keyword or test function name}
 
-Run only ignored tests with: 
+Run only ignored tests with:
 
     cargo test -- --ignored
 
@@ -1157,7 +1158,7 @@ let add_one_v4 = |x|               x + 1  ;
 
 #### Capturing variables in enclosing scope
 
-One of 3 ways: taking ownership, borrowing mutably, and borrowing immutably - as three Fn traits. Rust infers which trait to use based on how the closure uses the values from the environment. 
+One of 3 ways: taking ownership, borrowing mutably, and borrowing immutably - as three Fn traits. Rust infers which trait to use based on how the closure uses the values from the environment.
 
 **TLDR**: Rust will infer this and complain if it can't.
 

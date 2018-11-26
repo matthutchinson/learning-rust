@@ -1,5 +1,8 @@
 // public Summary trait, having 3 method signatures, with summarize_again having a default
 // implementation
+
+use std::fmt::Display;
+
 pub trait Summary {
     fn summarize(&self) -> String;
 
@@ -66,12 +69,12 @@ fn main() {
         retweet: false,
     };
 
-    println!("1 new tweet: {}", tweet.summarize());
-    println!("Tweet summarized again! {}", tweet.summarize_again());
+    println!("Tweet summarize - {}", tweet.summarize());
+    println!("Tweet summarize_again! {}", tweet.summarize_again());
     println!("");
 
-    println!("New article available! {}", article.summarize());
-    println!("New article summarized again! {}", article.summarize_again()); // will be default impl
+    println!("Article summarize {}", article.summarize());
+    println!("Article summarize_again! {}", article.summarize_again()); // will be default impl
     println!("");
 
     notify(tweet);
