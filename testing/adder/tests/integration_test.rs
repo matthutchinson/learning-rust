@@ -5,6 +5,6 @@ mod common;
 
 #[test]
 fn it_adds_two_intergration_test() {
-    common::setup();
+    common::setup(); // currently does nothing
     assert_eq!(4, adder::add_two(2));
 }
