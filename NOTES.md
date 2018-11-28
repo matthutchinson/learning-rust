@@ -845,8 +845,7 @@ A trait tells the Rust compiler about functionality a particular type has and ca
 * use traits to define shared behaviour in an abstract way.
 * use trait bounds to specify that a generic can be any type that has certain behaviour.
 * like interfaces in other languages.
-* trait definitions group method signatures together to define a set of
-  behaviours.
+* trait definitions group method signatures together to define a set of behaviours.
 
 E.g. a summary trait definition letting us call summarise on various types (e.g. `NewsArticle`, `BlogPost`, `Tweet` etc.
 
@@ -896,7 +895,10 @@ OR instead of just a trait method signature, you can have a default one like so:
 
 #### Trait Bounds
 
-We can use _trait bounds_ to constrain generic types to ensure the type will be limited to those that implement a particular trait and behaviour. The compiler checks that all the concrete types used with our code provide the correct behaviour.
+We can use _trait bounds_ to constrain generic types to ensure the type will be
+limited to those that implement a particular trait and behaviour. The compiler
+checks that all the concrete types used with our code provide the correct
+behaviour.
 
 * trait bounds ensure that a type has the behaviour we want.
 * trait bounds exist for generic type parameters e.g.
@@ -939,7 +941,9 @@ impl<T: Clone + Display> Point<T> {
 
 **NOTE**: `PartialOrd` is used for comparison `Display` trait for printing
 
-The std lib has some blanket trait implementations, e.g. the `ToString` trait is applied to anything having the `Display` trait, so we can call `.to_string()` on a variety of types.`
+The std lib has some blanket trait implementations, e.g. the `ToString` trait is
+applied to anything having the `Display` trait, so we can call `.to_string()` on
+a variety of types.`
 
 ### Lifetimes
 
@@ -963,7 +967,9 @@ For example, the following won't compile (when passing in 2 string slices):
         }
     }
 
-_Why?_ To return the reference, Rust can't know ahead of time, the lifetime scope of x or y. The borrow checker doesn't know which scopes to compare. The compiler will suggest it needs a lifetime parameter here like this:
+_Why?_ To return the reference, Rust can't know ahead of time, the lifetime
+scope of x or y. The borrow checker doesn't know which scopes to compare. The
+compiler will suggest it needs a lifetime parameter here like this:
 
     // all the references in the signature must have the same lifetime 'a
     fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
